@@ -37,6 +37,6 @@ export const getAllProduct = async(req:Request, res:Response)=>{
       data: products,
     });
   }catch(error:any){
-    res.status(500).json({succass: false, message: error.message})
+    res.status(500).json({success: false, message: error.message})
   }
 }
