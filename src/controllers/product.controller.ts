@@ -153,12 +153,11 @@ export const getDeleteProduct = async (req: Request, res: Response) => {
 export const getFeaturedProduct = async (req: Request, res: Response) => {
   const query = { isDraft: false, featured: true, isDelete: false };
 
-  console.log(query)
 
   try {
     const result = await getFeatureProdct(query);
 
-    console.log(result)
+    
 
     if (result.length === 0) {
       return res.status(404).json({

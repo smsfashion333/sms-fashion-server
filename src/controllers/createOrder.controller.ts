@@ -33,7 +33,7 @@ export const orderController = async (req: Request, res: Response) => {
   try {
     const result = await getAllOrder();
 
-    console.log({ result: result });
+  
 
     if (result.length === 0) {
       res.status(404).json({

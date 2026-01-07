@@ -14,9 +14,8 @@ export async function connectDB() {
     throw new Error("❌ DBURL is missing in environment variables");
   }
   try {
-    await client.connect();
+    // await client.connect();
     await client.db("admin").command({ ping: 1 });
-    console.log("Mongodb connected");
   } catch (error) {
     console.error("MongoDB connect failed", error);
     process.exit(1);

@@ -87,7 +87,7 @@ export async function CreateOrderService(payload: any) {
     paymentStatus: payload.paymentStatus,
   };
 
-  console.log(payload.orderStatus, payload.paymentStatus);
+  
 
   // Insert order into DB
   const result = await createOrderCollection.insertOne(orderData);
