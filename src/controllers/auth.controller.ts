@@ -44,15 +44,21 @@ export const logInController = async (req: Request, res: Response) => {
       { expiresIn: "3d" }
     );
 
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === "production",
+    //    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    //   maxAge: 3 * 24 * 60 * 60 * 1000,
+    // });
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      partitioned: true,
       maxAge: 3 * 24 * 60 * 60 * 1000,
-      path: "/",
-      // domain: ".gm-commerce.vercel.app",
     });
+
     res.status(200).json({
       success: true,
       message: "User login successfully",
