@@ -232,13 +232,12 @@ export const primaryProductDelete = async (req: Request, res: Response) => {
 
     const query = { _id: new ObjectId(id) };
 
-    console.log(query)
-
+ 
     const updatedProduct = await primaryDeleteProductService(
       query,
     );
 
-    console.log(updatedProduct)
+
 
     if (!updatedProduct) {
       return res.status(404).json({

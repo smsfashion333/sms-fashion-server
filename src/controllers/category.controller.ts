@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
 import {
   createCategories,
+  dropCategoryServer,
   getAllCategoriesService,
+  updateCategoryStatusServer,
 } from "../services/category.service";
+import { ObjectId, ResumeToken } from "mongodb";
 
 export const addCategory = async (req: Request, res: Response) => {
   const categoryData = req.body;
@@ -58,5 +61,69 @@ export const getAllCategories = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const dropCategory = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const query = { _id: new ObjectId(id) };
+
+  try {
+    const isDropCategory = await dropCategoryServer(query);
+
+    if (!isDropCategory) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Category not deleted yet!!" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Category deleted successfully",
+      data: isDropCategory,
+    });
+  } catch (err: any) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const updateCategoryStatusController = async (
+  req: Request,
+  res: Response,
+) => {
+  const id = req.params.id;
+
+  if (!id) {
+    return res.status(500).json({ success: false, message: "Id is require" });
+  }
+  try {
+    const query = { _id: new ObjectId(id) };
+    const status = req.body;
+
+    if (!status) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Status not found" });
+    }
+
+    const payload = { query: query, status: status };
+    const result = await updateCategoryStatusServer(payload);
+
+    if (!result) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Status not updated successfully" });
+    }
+
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Category Status updated successfully",
+        data: result,
+      });
+  } catch (err: any) {
+    res.status(500).json({ success: false, message: err.message });
   }
 };

@@ -22,3 +22,21 @@ export async function getAllCategoriesService() {
 
   return result;
 }
+
+
+export const dropCategoryServer=async(query:any)=>{
+  const result = await categoryCollection.deleteOne(query);
+  return result;
+}
+
+
+export const updateCategoryStatusServer = async(payload:any)=>{
+
+  const { query, status } = payload;
+
+  const result = await categoryCollection.updateOne(query, {
+    $set: status,
+  });
+
+  return result
+}
