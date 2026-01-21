@@ -18,8 +18,8 @@ app.use(
     origin: [
       "https://gm-commerce.vercel.app",
       "http://localhost:3000",
-      "https://yellowfurniture.vercel.app",
-      "https://yellowfurniture.xyz",
+      "https://gm-logistic.vercel.app",
+      "https://gmlogistic.net",
     ],
     credentials: true,
     exposedHeaders: ["set-cookie"],
