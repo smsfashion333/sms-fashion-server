@@ -21,6 +21,8 @@ app.use(
       "https://www.crabfashionbd.com",
       "https://crab-client.vercel.app",
       "https://e-commerce-01-brown.vercel.app",
+      "http://naturax.org",
+      "https://naturax.org",
     ],
     credentials: true,
     exposedHeaders: ["set-cookie"],
