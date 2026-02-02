@@ -65,7 +65,7 @@ export const getMarqueeController = async(req:Request, res:Response)=>{
 export const updateMarquee = async(req:Request, res:Response)=>{
     const {id} = req.params
 
-    console.log({id: id})
+
 
 
 
@@ -81,11 +81,11 @@ export const updateMarquee = async(req:Request, res:Response)=>{
 
       const {_id, ...payload} = req.body
 
-      console.log({ data: payload });
+
 
         const result = await updateMarqueeService(query, payload);
 
-        console.log({result: result})
+
 
         if(!result){
             return res.status(500).json({
@@ -125,7 +125,7 @@ export const toggleMarqueeStatusController = async(req:Request, res:Response)=>{
 
   const isActive = req.body;
 
-  console.log({isActive: isActive})
+
 
   try{
     const result = await toggleMarqueeStatusService(query, isActive)
@@ -157,7 +157,7 @@ export const getAllMarquee = async(req:Request, res:Response)=>{
   try{
     const result= await getAllMarqueeService()
 
-    console.log({result: result})
+
 
     if(!result.length){
       return res.status(404).json({
