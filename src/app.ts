@@ -7,6 +7,7 @@ import facebookRoute from "./routes/facebook.route";
 import bannerRoute from "./routes/banner.route";
 import socialRoute from "./routes/social.route";
 import authRouter from "./routes/auth.route";
+import marqueeRoute from "./routes/marquee.route"
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -45,6 +46,8 @@ app.use("/facebook-setting", facebookRoute);
 app.use("/banner", bannerRoute);
 
 app.use("/social", socialRoute);
+
+app.use("/marquee", marqueeRoute);
 
 // auth route
 app.use("/api/v1/auth", authRouter);
