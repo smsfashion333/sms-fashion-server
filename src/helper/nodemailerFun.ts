@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import { otpEmailTemplate } from "./otpEmailTemplate";
+import { adminOrderPlacedEmailTemplate } from "./orderConfirmEmailTemplate";
 
 export const sendEmail = async (payload: {
   to: string;
@@ -7,8 +8,9 @@ export const sendEmail = async (payload: {
   text: string;
   orderId?: string;
   otp?: string;
+  type?: string;
 }) => {
-  const { to, subject, text, orderId, otp } = payload;
+  const { to, subject, text, orderId, otp, type = "otp" } = payload;
 
   try {
     const transporter = nodemailer.createTransport({
@@ -25,7 +27,10 @@ export const sendEmail = async (payload: {
       to: to,
       subject: subject,
       text: text,
-      html: otpEmailTemplate(orderId || "", otp || "", subject, text),
+      html:
+        type === "otp"
+          ? otpEmailTemplate(orderId || "", otp || "", subject, text)
+          : adminOrderPlacedEmailTemplate(orderId || "", text),
     });
 
     return info;

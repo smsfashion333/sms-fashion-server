@@ -1,17 +1,20 @@
 import { ObjectId } from "mongodb";
 import { client } from "../config/db";
 import { storeOTPForOrder } from "./createOrder.service";
+import { sendEmail } from "./../helper/nodemailerFun";
 
-const otpCollection = client.db("loweCommerce").collection("OTPStore");
+const otpCollection = client
+  .db("loweCommerce")
+  .collection("OTPStore");
 const createOrderCollection = client
   .db("loweCommerce")
   .collection("create_order");
+const usersCollection = client.db("loweCommerce").collection("users");
 
 export const verifyOTPForOrder = async (query: any, otp: string) => {
-  console.log({query: query})
+  console.log({ query: query });
   //   const query = { orderId: orderId };
   const otpRecord = await otpCollection.findOne(query);
-
 
   console.log({ otpRecord: otpRecord });
 
@@ -32,9 +35,32 @@ export const verifyOTPForOrder = async (query: any, otp: string) => {
   await createOrderCollection.updateOne(
     { _id: otpRecord.orderId },
     {
-      $set: { riskScore: 15, isEmailVerified: true, FakeOrderStatus: "LEGIT" },
+      $set: {
+        riskScore: 15,
+        isEmailVerified: true,
+        FakeOrderStatus: "LEGIT",
+      },
     },
   );
+
+  const admins = await usersCollection
+    .find({
+      role: "admin",
+    })
+    .toArray();
+
+  const adminMail = admins.map((admin) => admin.email);
+
+  adminMail.forEach(async (email) => {
+    const emailPayload = {
+      to: email,
+      subject: "Order Placement Alert",
+      text: `An Order has been placed.`,
+      type: "order-placement",
+    };
+
+    await sendEmail(emailPayload);
+  });
 
   return {
     success: true,
@@ -53,14 +79,14 @@ export const resendOTPService = async (orderId: string) => {
 
   const email = result?.customerInfo?.email;
 
-  const payload = {orderId, email};
+  const payload = { orderId, email };
 
-  const reSendOTP = await storeOTPForOrder(payload)
-  
+  const reSendOTP = await storeOTPForOrder(payload);
+
   console.log({ result: reSendOTP });
 
-  if(!reSendOTP.success){
-    return {success: false, message: "Something was wrong!!"}
+  if (!reSendOTP.success) {
+    return { success: false, message: "Something was wrong!!" };
   }
 
   return reSendOTP;
