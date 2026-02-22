@@ -26,6 +26,7 @@ app.use(
       "https://gm-commerce.vercel.app",
       "http://localhost:3000",
       "https://www.crabfashionbd.com",
+      "https://crabfashionbd.com",
       "https://crab-client.vercel.app",
       "https://e-commerce-01-brown.vercel.app",
       "http://naturax.org",
