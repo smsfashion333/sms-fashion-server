@@ -28,6 +28,7 @@ app.use(
       "http://localhost:3002",
       "https://sms-fashion.vercel.app",
       "https://digitalsmsfashion.com",
+      "https://www.digitalsmsfashion.com",
     ],
     credentials: true,
     exposedHeaders: ["set-cookie"],
